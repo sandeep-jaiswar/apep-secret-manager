@@ -9,19 +9,19 @@ import {
   OneToMany,
 } from 'typeorm';
 
-@Entity('secrets')
-export class Secret {
+@Entity('users')
+export class User {
   @PrimaryGeneratedColumn()
-  secretId: number;
+  userId: number;
+
+  @Column({ unique: true })
+  username: string;
+
+  @Column({ unique: true })
+  email: string;
 
   @Column()
-  name: string;
-
-  @Column()
-  value: string;
-
-  @Column({ nullable: true })
-  description: string;
+  passwordHash: string;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -29,9 +29,9 @@ export class Secret {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Permission, (permission) => permission.secret)
+  @OneToMany(() => Permission, (permission) => permission.user)
   permissions: Permission[];
 
-  @OneToMany(() => Audit, (audit) => audit.secret)
+  @OneToMany(() => Audit, (audit) => audit.user)
   audits: Audit[];
 }
